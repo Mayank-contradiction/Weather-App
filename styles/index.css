@@ -1,0 +1,80 @@
+body{
+    background-image: url(../image/weather.jpg);
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+.container-fluid{
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.card-main {
+    background: #000000d0;
+    color: white;
+    border-radius: 30px;
+    width: 92%;
+    min-height: 92vh;
+}
+
+.prev-data-card{
+    background: #7c7c7c2b;
+}
+
+.input-div {
+    background: #7c7c7c2b;
+    color: white;
+    width: 500px;
+}
+
+#city-list li {
+    background: #444444;
+    color: white;
+    z-index: 10;
+}
+
+#city-list li:hover {
+    background: #4b4b4b;
+}
+
+input.search-bar {
+    outline: none;
+    background: #7c7c7c2b;
+    color: white;
+    width: 100%;
+}
+
+#search-button {
+    outline: none;
+    background: #7c7c7c2b;
+    color: white;
+}
+
+li.choose-city{
+    cursor: pointer;
+}
+
+.card-header {
+    background: #444444;
+    border-color: white;
+    cursor: pointer;
+}
+
+.card-header:hover{
+    background: #4b4b4b;
+}
+
+.prev-weather-data, #warmest-temp, #coolest-temp{
+    border: 1px solid whitesmoke;
+    cursor: pointer;
+}
+
+.prev-weather-data p{
+    font-size: 12px;
+    color: rgb(216, 216, 216);
+}
+
+#main-weather p.lighted{
+    color: rgb(216, 216, 216);
+}

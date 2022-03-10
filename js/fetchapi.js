@@ -3,20 +3,38 @@ const API_KEY = "274d01c23e86f519e556a3637a5bc7d0";
 
 // Fuction to fetch weather by city name, country code.
 const fetchWeatherByCity = async (city)=>{
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`);
-    if(!response.ok) 
-        throw new Error("No weather found.");
-    else
-        return response.json();
+    if(Array.isArray(city)){
+        var result = [];
+        for(const cityName of city){
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`);
+            if(response.ok) {
+                const data = await response.json();
+                result.push(data);
+            }
+        }
+        if(result.length > 0){
+            return result;
+        }
+    }else{
+        if(city) {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`);
+            if(!response.ok)
+                alert("No weather found.");
+            else
+                return response.json();
+        }
+    }
 }
 
 // Function to fetch list of cities which have similar names during search operation.
 const findCitiesList = async (city)=>{
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/find?q=${city}&appid=${API_KEY}&units=metric`);
-    if(!response.ok) 
-        throw new Error("No city found.");
-    else 
-        return response.json();
+    if(city) {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/find?q=${city}&appid=${API_KEY}&units=metric`);
+        if(!response.ok) 
+            alert("No city found.");
+        else 
+            return response.json();
+    }
 }
 
 // Function to find warmest and coolest weather start time and end time.
@@ -107,20 +125,26 @@ const getEpochTime = ()=>{
 
 // Function fetch historical weather data of previous 5 days and find warmest and coolest wheather using minAndMax function.
 const minAndMaxWeather = async (lat, lon)=>{
-    const timeArray = await getEpochTime();
-    var result = [];
-    let i=0;
-    for(const epochTime of timeArray){
-        const response = await fetch(`http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${epochTime}&units=metric&appid=${API_KEY}`);
-        if(response.ok) {
-            const data = await response.json();
-            if(i == 0) {
-                result.push(data.current);
+    if(lat && lon) {
+        const timeArray = await getEpochTime();
+        var result = [];
+        let i=0;
+        for(const epochTime of timeArray){
+            const response = await fetch(`http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${epochTime}&units=metric&appid=${API_KEY}`);
+            if(response.ok) {
+                const data = await response.json();
+                if(i == 0) {
+                    result.push(data.current);
+                }
+                result.push.apply(result, data.hourly);
             }
-            result.push.apply(result, data.hourly);
+            i++;
         }
-        i++;
+        if(result.length > 0){
+            const minMax = await minAndMax(result);
+            return minMax;
+        }else{
+            alert("No historical data found.")
+        }
     }
-    const minMax = await minAndMax(result);
-    return minMax;
 }

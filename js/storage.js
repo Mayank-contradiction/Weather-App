@@ -1,18 +1,13 @@
-// Storing previous cities name in IndexedDB as array.
-let request = window.indexedDB.open("WeatherAppDatabase");
-
-// Number of cities names that should be stored. 
-let size = 10;
-
 //Function to save data in IndexedDB
 function saveData(value) {
+    // Number of cities names that should be stored. 
+    let size = 10;
     if(window.indexedDB) {
+        let request = window.indexedDB.open("WeatherAppDatabase", 2);
         //For creating store for first time.
-        request.onupgradeneeded = event => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains("CitiesStore")) {
-                db.createObjectStore("CitiesStore", { autoIncrement: true});
-            }
+        request.onupgradeneeded = e => {
+            const db = e.target.result;
+            db.createObjectStore("CitiesStore", { autoIncrement: true});
         };
 
         request.onsuccess = (event) => {
@@ -33,7 +28,6 @@ function saveData(value) {
                 }
             }
         }
-
         request.onerror = (e)=>{
             console.log(e)
         }
@@ -43,14 +37,27 @@ function saveData(value) {
 }
 
 //Function to get cities names from IndexedDB.
-const loadData = (callback) => {
+const loadData = () => {
     if(window.indexedDB) {
-        request.onsuccess = event => {
-            const db = event.target.result;
-            db.transaction("CitiesStore").objectStore("CitiesStore").get(1).onsuccess = e => {
-                callback(e.target.result);
-            };
-        }
+        return new Promise(
+            function(resolve, reject) {
+                let request = window.indexedDB.open("WeatherAppDatabase");
+                request.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    db.createObjectStore("CitiesStore", { autoIncrement: true});
+                };
+                request.onsuccess = event => {
+                    const db = event.target.result;
+                    if(db.objectStoreNames.contains('CitiesStore')){
+                        db.transaction("CitiesStore").objectStore("CitiesStore").get(1).onsuccess = e => {
+                        if(e.target.result)
+                            resolve(e.target.result);
+                        else
+                            resolve([])
+                        }
+                    }
+                }
+            });
     } else {
         alert("You browser does not support indexedDB API");
     }
