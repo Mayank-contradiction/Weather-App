@@ -115,6 +115,7 @@ $("#city-list").on("click", ".choose-city", function(){
     $("#city-list").html('');
     $("#main-weather").removeClass("d-flex").addClass("d-none");
     $("#loading").removeClass("d-none");
+    $(".search-bar").val('')
     let coordValue =$( $(this).find("span")[1] )[0].innerText;
     let cityName =$( $(this).find("span")[0] )[0].innerText.trim();
     const lat = coordValue.slice(coordValue.indexOf("lat:")+4, coordValue.indexOf(",")).trim();
