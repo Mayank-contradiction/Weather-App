@@ -1,12 +1,11 @@
 body{
     background-image: url(../image/weather.jpg);
     background-position: center; 
-    background-repeat: no-repeat; 
     background-size: cover;
 }
 
 .container-fluid{
-    height: 100vh;
+    
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -49,6 +48,10 @@ input.search-bar {
     outline: none;
     background: #7c7c7c2b;
     color: white;
+}
+
+#prev-data-set> div{
+    width: 350px;
 }
 
 li.choose-city{

@@ -130,7 +130,7 @@ const minAndMaxWeather = async (lat, lon)=>{
         var result = [];
         let i=0;
         for(const epochTime of timeArray){
-            const response = await fetch(`http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${epochTime}&units=metric&appid=${API_KEY}`);
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${epochTime}&units=metric&appid=${API_KEY}`);
             if(response.ok) {
                 const data = await response.json();
                 if(i == 0) {

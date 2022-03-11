@@ -33,7 +33,7 @@ const loadAndSetInitialData = async() => {
             if(data){
                 let myHTML = '';
                 for(const weatherData of data){
-                    myHTML += `<div class="prev-weather-data p-2 mx-1"><h5 class="my-1">${weatherData.name}, ${weatherData.sys.country}</h5><p class="m-0">lat: ${weatherData.coord.lat}, lon: ${weatherData.coord.lon}</p><h5 class="my-1">${weatherData.weather[0].main in icons ? icons[weatherData.weather[0].main]: icons['Others']} ${weatherData.main.temp}&#176;C (${weatherData.weather[0].description})</h5><p class="m-0">Min: ${weatherData.main.temp_min}, Max: ${weatherData.main.temp_max}</p></div>`
+                    myHTML += `<div class="prev-weather-data p-1 mx-1 mb-1 flex-fill"><h5 class="my-1">${weatherData.name}, ${weatherData.sys.country}</h5><p class="m-0">lat: ${weatherData.coord.lat}, lon: ${weatherData.coord.lon}</p><h5 class="my-1">${weatherData.weather[0].main in icons ? icons[weatherData.weather[0].main]: icons['Others']} ${weatherData.main.temp}&#176;C (${weatherData.weather[0].description})</h5><p class="m-0">Min: ${weatherData.main.temp_min}, Max: ${weatherData.main.temp_max}</p></div>`
                 }
                 if(prevSearch.length > 0) {
                     $("#prev-data-set").html(myHTML);
@@ -46,8 +46,11 @@ const loadAndSetInitialData = async() => {
 
 //Set Weather details when previous search element is clicked.
 $("#prev-data-set").on("click", ".prev-weather-data", function(){
-    let coordValue =$( $(this).find("p")[1] )[0].innerText;
+    $("#main-weather").removeClass("d-flex").addClass("d-none");
+    $("#loading").removeClass("d-none");
+    let coordValue =$( $(this).find("p")[0] )[0].innerText;
     let cityName =$( $(this).find("h5")[0] )[0].innerText.trim();
+    console.log(coordValue);
     const lat = coordValue.slice(coordValue.indexOf("lat:")+4, coordValue.indexOf(",")).trim();
     const lon = coordValue.slice(coordValue.indexOf("lon:")+4, coordValue.indexOf("</span>")).trim();
     setWeatherData(lat, lon, cityName);
