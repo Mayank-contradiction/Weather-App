@@ -29,7 +29,7 @@ function saveData(value) {
             }
         }
         request.onerror = (e)=>{
-            console.log(e)
+            console.log(e.target.error.message);
         }
     } else {
         alert("You browser does not support indexedDB API");
