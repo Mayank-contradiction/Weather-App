@@ -74,9 +74,7 @@ const minAndMax = async (dataArray) => {
             }
             if(dataArray[i+1].temp >= max.temp){
                 max = dataArray[i+1];
-                if(max.temp != maxStart.temp || maxStart.temp != dataArray[i].temp){
-                    maxStart = max;
-                }
+                maxStart = max;
             }
         }
         else if(dataArray[i].temp > dataArray[i+1].temp){
@@ -88,9 +86,7 @@ const minAndMax = async (dataArray) => {
             }
             if (dataArray[i+1].temp <= min.temp){
                 min = dataArray[i+1];
-                if(min.temp != minStart.temp || minStart.temp != dataArray[i].temp){
-                    minStart = min;
-                }
+                minStart = min;
             }
         }else{
             if(dataArray[i].temp >= max.temp){
@@ -116,8 +112,9 @@ const minAndMax = async (dataArray) => {
 const getEpochTime = ()=>{
     let timeArray = [];
     let date = new Date();
+    date.setDate(date.getDate() - 6);
     for(let i=0;i<5;i++){
-        date.setDate(date.getDate() - 1);
+        date.setDate(date.getDate() + 1);
         timeArray.push(Math.floor(date / 1000));
     }
     return timeArray;

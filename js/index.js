@@ -50,7 +50,6 @@ $("#prev-data-set").on("click", ".prev-weather-data", function(){
     $("#loading").removeClass("d-none");
     let coordValue =$( $(this).find("p")[0] )[0].innerText;
     let cityName =$( $(this).find("h5")[0] )[0].innerText.trim();
-    console.log(coordValue);
     const lat = coordValue.slice(coordValue.indexOf("lat:")+4, coordValue.indexOf(",")).trim();
     const lon = coordValue.slice(coordValue.indexOf("lon:")+4, coordValue.indexOf("</span>")).trim();
     setWeatherData(lat, lon, cityName);
@@ -82,10 +81,10 @@ const setWeatherData = (lat, lon, cityName)=>{
             $("#pressure").html(`Pressure: ${data[0].pressure}hPa`);
             $("#uvi").html(`UV: ${data[0].uvi}`);
             //Set coolest temperature and time
-            const coolData = `<span>Coolest Temperature: ${data[1].temp}&#176;C</span><br/><span>Time: From ${getCurrentDateAndTime(data[3].dt)} To ${getCurrentDateAndTime(data[2].dt)}</span>`
+            const coolData = `<span>Coolest Temperature: ${data[1].temp}&#176;C</span><br/><span>Time: From ${getCurrentDateAndTime(data[1].dt)} ${data[1].dt != data[2].dt ? `To ${getCurrentDateAndTime(data[2].dt)}`:'(for around 1 hour)'}</span>`
             $("#coolest-temp").html(coolData);
             //Set warmest temperature and time
-            const warmData = `<span>Warmest Temperature: ${data[3].temp}&#176;C</span><br/><span>Time: From ${getCurrentDateAndTime(data[3].dt)} To ${getCurrentDateAndTime(data[4].dt)}</span>`
+            const warmData = `<span>Warmest Temperature: ${data[3].temp}&#176;C</span><br/><span>Time: From ${getCurrentDateAndTime(data[3].dt)} ${data[3].dt != data[4].dt ? `To ${getCurrentDateAndTime(data[4].dt)}`:'(for around 1 hour)'}</span>`
             $("#warmest-temp").html(warmData);
             $("#loading").addClass("d-none");
             $("#main-weather").removeClass("d-none").addClass("d-flex");
