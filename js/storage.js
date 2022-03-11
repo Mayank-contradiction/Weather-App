@@ -3,7 +3,7 @@ function saveData(value) {
     // Number of cities names that should be stored. 
     let size = 10;
     if(window.indexedDB) {
-        let request = window.indexedDB.open("WeatherAppDatabase", 2);
+        let request = window.indexedDB.open("WeatherAppDatabase");
         //For creating store for first time.
         request.onupgradeneeded = e => {
             const db = e.target.result;
